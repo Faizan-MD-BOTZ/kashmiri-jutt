@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="FAIZAN-MD chat mark">
+  <defs>
+    <linearGradient id="brand" x1="72" y1="40" x2="440" y2="472" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#667eea"/>
+      <stop offset="1" stop-color="#764ba2"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="#171632"/>
+  <rect x="28" y="28" width="456" height="456" rx="112" fill="url(#brand)" opacity=".82"/>
+  <path d="M256 103c-91 0-165 66-165 148 0 33 13 63 36 87l-15 66 72-20c22 10 46 15 72 15 91 0 165-66 165-148s-74-148-165-148Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="27"/>
+  <circle cx="193" cy="251" r="13" fill="#fff"/>
+  <circle cx="256" cy="251" r="13" fill="#fff"/>
+  <circle cx="319" cy="251" r="13" fill="#fff"/>
+</svg>
