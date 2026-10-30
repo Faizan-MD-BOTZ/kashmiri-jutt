@@ -207,9 +207,9 @@ async function chooseAutomaticServer({ silent = false } = {}) {
   return choice;
 }
 
-function setBusy(isBusy) {
+function setBusy(isBusy, busyLabel = 'Requesting code…') {
   generateButton.disabled = isBusy;
-  generateButtonLabel.textContent = isBusy ? 'Requesting code…' : 'Generate Pair Code';
+  generateButtonLabel.textContent = isBusy ? busyLabel : 'Generate Pair Code';
   phoneNumberInput.readOnly = isBusy;
 }
 
@@ -317,7 +317,7 @@ copyButton.addEventListener('click', async () => {
 });
 
 async function initializePanel() {
-  setBusy(true);
+  setBusy(true, 'Checking servers…');
   renderServers();
   updateServerSummary();
   try {

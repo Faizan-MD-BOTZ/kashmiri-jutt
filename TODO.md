@@ -10,7 +10,8 @@
 - [x] Only configured servers are available in the manual selector. The visitor can choose a server manually or use Auto Server to choose an available configured server.
 - [x] A pairing request is sent only once to the selected server. A server is compatible when it exposes the expected `/code?number=` API and permits browser CORS from the panel origin.
 
-## Private GitHub repository and Vercel-ready handoff
-- [x] The source is organized as a lightweight static website ready to import from the new private GitHub repository into Vercel.
+## Private GitHub repository and Vercel deployment
+- [x] The source is organized as a lightweight static website in the new private GitHub repository, ready to deploy on Vercel.
 - [x] README instructions identify the exact file where the user can add the remaining four server URLs and explain the `/code` and CORS requirements for each added backend.
-- [ ] The new private GitHub repository is created/connected only through the project GitHub confirmation flow, and the website source is pushed to its main branch without overwriting the supplied server or other user changes.
+- [x] The new private GitHub repository was created/connected only through the project GitHub confirmation flow, and the website source was pushed to its `main` branch without overwriting the supplied server or other user changes.
+- [x] The project was imported into Vercel from the private GitHub repository and deployed to its Production environment.
