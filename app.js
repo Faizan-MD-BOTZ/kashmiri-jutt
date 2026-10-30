@@ -268,6 +268,7 @@ pairForm.addEventListener('submit', async event => {
     const code = await requestPairCode(server, digits);
     pairCode.textContent = code;
     codeResult.hidden = false;
+    copyButton.disabled = false;
     showNotice(`Pairing code received from ${server.name}.`, false);
   } catch (error) {
     if (error?.name === 'AbortError') {
@@ -295,20 +296,34 @@ copyButton.addEventListener('click', async () => {
   if (!value || value === '—') return;
 
   try {
+    let copied = false;
     if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(value);
-    } else {
+      try {
+        await navigator.clipboard.writeText(value);
+        copied = true;
+      } catch {
+        // Continue to the selection-based fallback when mobile clipboard access is denied.
+      }
+    }
+
+    if (!copied) {
       const temporaryInput = document.createElement('textarea');
       temporaryInput.value = value;
       temporaryInput.setAttribute('readonly', '');
+      temporaryInput.setAttribute('aria-hidden', 'true');
+      temporaryInput.tabIndex = -1;
       temporaryInput.style.position = 'fixed';
       temporaryInput.style.opacity = '0';
       document.body.append(temporaryInput);
+      temporaryInput.focus();
       temporaryInput.select();
-      const copied = document.execCommand('copy');
-      temporaryInput.remove();
-      if (!copied) throw new Error('Clipboard access is unavailable.');
+      try {
+        copied = typeof document.execCommand === 'function' && document.execCommand('copy');
+      } finally {
+        temporaryInput.remove();
+      }
     }
+    if (!copied) throw new Error('Clipboard access is unavailable.');
     copyLabel.textContent = 'Copied';
     window.setTimeout(() => { copyLabel.textContent = 'Copy'; }, 1400);
   } catch {
