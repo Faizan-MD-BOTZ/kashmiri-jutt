@@ -7,7 +7,7 @@ import {
   selectHealthyServer
 } from './src/pairing-core.mjs';
 
-const MAX_SERVER_SLOTS = 5;
+const MAX_SERVER_SLOTS = 7;
 const HEALTH_TIMEOUT_MS = 5000;
 const CODE_TIMEOUT_MS = 30000;
 
@@ -80,7 +80,7 @@ function renderServers() {
     radio.name = 'serverChoice';
     radio.value = slot.id;
     radio.checked = slot.id === selectedServerId;
-    radio.disabled = !configured || checkingServers;
+    radio.disabled = !configured || checkingServers || status === 'offline';
     radio.setAttribute('aria-label', configured ? slot.name : `${slot.name}, empty slot`);
     radio.addEventListener('change', () => {
       if (!radio.checked) return;
@@ -137,7 +137,7 @@ function updateServerSummary() {
   const selected = getSelectedSlot();
   const selectedName = selected?.name || 'No server selected';
   const modeLabel = routingMode === 'auto' ? 'Auto Server' : 'Manual selection';
-  serverSummary.textContent = `${modeLabel}: ${selectedName} · ${onlineCount} online · ${configuredCount} configured of 5 slots`;
+  serverSummary.textContent = `${modeLabel}: ${selectedName} · ${onlineCount} online · ${configuredCount} configured of 7 slots`;
 }
 
 async function checkServer(slot) {

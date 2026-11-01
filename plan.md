@@ -2,17 +2,19 @@
 
 ## Scope and behavior
 
-Create a FAIZAN-MD WhatsApp pairing-code panel based on the user's current Heroku pairing page. A visitor enters a WhatsApp number with country code, chooses a configured server manually or selects **Auto Server**, requests one pairing code, then copies the returned code. The form's placeholder and helper example will display the user-approved number `923266105873` as static text only; it is not submitted automatically. The panel supports five server slots: slot 1 contains the supplied Heroku URL, slot 2 contains the newly supplied Railway URL (`https://web-production-461bb3.up.railway.app/`), and slots 3–5 are empty for the user to fill in later.
+Maintain the FAIZAN-MD WhatsApp pairing-code panel. A visitor enters a WhatsApp number with country code, chooses an available server manually or selects **Auto Server**, requests one pairing code, then copies the returned code. The form's placeholder and helper example display the user-approved number `923266105873` as static text only; it is not submitted automatically.
 
-Each slot is configured in `src/servers.mjs` with a display name and base URL. Only configured URLs are selectable; empty slots remain visible as placeholders. Auto Server checks configured endpoints for reachability and chooses one healthy endpoint. It sends the pairing request to only that endpoint. Manual selection uses the chosen endpoint. Pairing requests use the `GET /code?number=<digits>` contract. The page does not save phone numbers or pairing codes. Other server URLs must expose a compatible `/code` endpoint and allow browser CORS from the panel origin.
+The panel has seven visible server slots. Slots 1–5 use only existing endpoints: Server 1 `https://freebot07-d877ac2d7885.herokuapp.com/`; Server 2 `https://web-production-461bb3.up.railway.app/`; Server 3 `https://fazi007-f531d4510b01.herokuapp.com/`; Server 4 `https://fazi008-d3fb7605adb5.herokuapp.com/`; and Server 5 `https://fazi009-9d9a2a67162e.herokuapp.com/`. Slots 6 and 7 stay empty. Do not create `fazi0001` or `fazi0011`, create any other app, or reuse another server's URL.
 
-The bot prefix and AutoReact issues are separate bot-repository concerns: investigate and fix the bot's per-number settings/socket scope in that repository rather than presenting the website as a settings manager.
+Deploy bot repository commit `46ae5be` (`Raise audio and video download caps to 70 MB`) to the already-existing Heroku apps `freebot07`, `fazi007`, `fazi008`, and `fazi009`, then verify their availability. Do not alter the MongoDB URL or bot configuration. The panel selector must mark servers unavailable if its safe no-number `/code` check fails, returns HTTP 404, or is blocked by browser CORS. Each usable backend supports `GET /code?number=<digits>` and returns JSON with a non-empty `code`; one pairing request goes to only one selected server. The page does not save phone numbers or pairing codes.
+
+The bot's per-number prefix and AutoReact settings remain separate bot-repository concerns, not panel features.
 
 ## Repository and hosting
 
-The human-readable requested project name is `𝐊αѕнмιяι-𝐉υтт⎯꯭̽`. Use the URL-safe ASCII slug `kashmiri-jutt` for the GitHub repository and Vercel project/domain, while keeping the existing FAIZAN-MD wordmark on the panel. The private GitHub repository is connected to Vercel; updates pushed to `main` should deploy automatically and the live link should include the new slug.
+The approved public panel identity is `𝐊αѕнмιяι-𝐉υтт⎯꯭̽`, with the existing `kashmiri-jutt.vercel.app` public domain. Preserve the panel's existing GitHub/Vercel binding and deploy the revised panel through the connected repository; do not change repository ownership or hosting settings.
 
-Use a lightweight static HTML/CSS/JavaScript frontend with no database or application server. Keep the public website files at repository root so Vercel's static **Other** preset can serve them with no install step. The WebDev static build copies the site files into `dist/` and publishes that folder. The page calls each configured Heroku or Railway base URL directly in the browser. Keep the README accurate about the three remaining empty server slots, CORS, and endpoint requirements.
+Use a lightweight static HTML/CSS/JavaScript frontend with no database or application server. Keep the public website files at repository root for Vercel's static **Other** preset. The Webdev static build copies the site files into `dist/` and publishes that folder. The page calls each configured Heroku or Railway base URL directly in the browser. Keep the README accurate about the five existing URLs, the two empty slots, CORS, and endpoint requirements.
 
 ## Design
 
@@ -20,12 +22,12 @@ Follow the supplied FAIZAN-MD pairing page rather than inventing a new layout: r
 
 ## Project structure
 
-- `index.html` — accessible single-page pairing form and visible server selector.
+- `index.html` — accessible single-page pairing form and visible seven-slot server selector.
 - `styles.css` — responsive FAIZAN-MD theme, interaction states, and the requested brand colors.
 - `app.js` — server availability check, auto/manual selection, phone normalization, pairing request, result and copy handling.
-- `src/servers.mjs` — five editable server slots; two supplied URLs and three blank slots.
+- `src/servers.mjs` — five existing server URLs plus two deliberately empty slots.
 - `src/pairing-core.mjs` — pure phone, URL and Auto Server selection helpers.
 - `manus-routes.json` — declare the single `/` page route.
-- `README.md` — setup, adding the remaining server URLs, API/CORS requirements and GitHub-to-Vercel deployment steps.
+- `README.md` — setup, exact server mapping, API/CORS requirements and GitHub-to-Vercel deployment steps.
 - `plan.md` and `TODO.md` — implementation plan and outcome tracking.
 - `test/pairing-core.test.mjs` — focused regression checks for phone and server selection helpers.

@@ -47,9 +47,17 @@ test('reads only a non-empty string pairing code', () => {
   assert.equal(extractPairCode({ code: 12345 }), '');
 });
 
-test('configures exactly five server slots with the two provided endpoints in slots one and two', () => {
-  assert.equal(SERVERS.length, 5);
-  assert.equal(SERVERS[0].baseUrl, 'https://freebot07-d877ac2d7885.herokuapp.com/');
-  assert.equal(SERVERS[1].baseUrl, 'https://web-production-461bb3.up.railway.app/');
-  assert.deepEqual(SERVERS.slice(2).map(server => server.baseUrl), ['', '', '']);
+test('configures five unique existing server endpoints and leaves slots six and seven empty', () => {
+  assert.equal(SERVERS.length, 7);
+  const expected = [
+    'https://freebot07-d877ac2d7885.herokuapp.com/',
+    'https://web-production-461bb3.up.railway.app/',
+    'https://fazi007-f531d4510b01.herokuapp.com/',
+    'https://fazi008-d3fb7605adb5.herokuapp.com/',
+    'https://fazi009-9d9a2a67162e.herokuapp.com/',
+    '',
+    ''
+  ];
+  assert.deepEqual(SERVERS.map(server => server.baseUrl), expected);
+  assert.equal(new Set(expected.filter(Boolean)).size, 5);
 });
