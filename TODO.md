@@ -8,10 +8,10 @@
 - [x] The page shows clear loading, success, and error states; it does not save the visitor's phone number or pairing code.
 
 ## Seven visible slots, Auto Server, and manual selection
-- [x] The panel has seven visible slots with this mapping: Server 1 `https://freebot07-d877ac2d7885.herokuapp.com/`; Server 2 `https://web-production-461bb3.up.railway.app/`; Server 3 `https://fazi007-f531d4510b01.herokuapp.com/`; Server 4 `https://fazi008-d3fb7605adb5.herokuapp.com/`; Server 5 `https://fazi009-9d9a2a67162e.herokuapp.com/`; Server 6 and Server 7 are empty. Do not create `fazi0001`, `fazi0011`, or other new apps, and do not duplicate a URL into an empty slot.
+- [x] The panel has seven visible slots, all mapped to the approved endpoint `https://mishumd-998dc798c50a.herokuapp.com/`. The former server URLs were removed from the panel configuration.
 - [x] Only configured servers are available in the manual selector. The visitor can choose a server manually or use Auto Server to choose an available configured server.
 - [x] A pairing request is sent only once to the selected server. A server is compatible when it exposes the expected `/code?number=` API and permits browser CORS from the panel origin; health checks send no phone number.
-- [x] README instructions identify `src/servers.mjs` as the exact file where all seven slots are configured, name all five existing endpoint URLs and the two empty slots, and explain the `/code` and CORS requirements.
+- [x] README instructions identify `src/servers.mjs` as the exact file where all seven slots are configured and explain the approved `/code` and CORS requirements.
 - [ ] The updated seven-slot panel is committed to the currently bound repository's `main` branch; the current production URL is checked after deployment to confirm it serves the updated server choices.
 
 ## Existing bot-server release

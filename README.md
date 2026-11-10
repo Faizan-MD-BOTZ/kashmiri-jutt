@@ -6,23 +6,23 @@ A lightweight static WhatsApp pairing-code page with Auto Server and manual serv
 
 ## Server slots
 
-The panel has seven visible slots configured in [`src/servers.mjs`](src/servers.mjs). Five existing endpoints are listed; slots 6 and 7 are intentionally empty because no additional Heroku apps are to be created in this update.
+The panel has seven visible slots configured in [`src/servers.mjs`](src/servers.mjs). All seven slots now use the approved pairing endpoint; the former server URLs have been removed.
 
 | Slot | Server | Base URL |
 | --- | --- | --- |
-| Server 1 | Existing Heroku app `freebot07` | `https://freebot07-d877ac2d7885.herokuapp.com/` |
-| Server 2 | Existing Railway server | `https://web-production-461bb3.up.railway.app/` |
-| Server 3 | Heroku app `fazi007` | `https://fazi007-f531d4510b01.herokuapp.com/` |
-| Server 4 | Heroku app `fazi008` | `https://fazi008-d3fb7605adb5.herokuapp.com/` |
-| Server 5 | Heroku app `fazi009` | `https://fazi009-9d9a2a67162e.herokuapp.com/` |
-| Server 6 | Empty | No URL configured |
-| Server 7 | Empty | No URL configured |
+| Server 1 | Approved Heroku server | `https://mishumd-998dc798c50a.herokuapp.com/` |
+| Server 2 | Approved Heroku server | `https://mishumd-998dc798c50a.herokuapp.com/` |
+| Server 3 | Approved Heroku server | `https://mishumd-998dc798c50a.herokuapp.com/` |
+| Server 4 | Approved Heroku server | `https://mishumd-998dc798c50a.herokuapp.com/` |
+| Server 5 | Approved Heroku server | `https://mishumd-998dc798c50a.herokuapp.com/` |
+| Server 6 | Approved Heroku server | `https://mishumd-998dc798c50a.herokuapp.com/` |
+| Server 7 | Approved Heroku server | `https://mishumd-998dc798c50a.herokuapp.com/` |
 
-Do not create `fazi0001` or `fazi0011` or copy another endpoint into an empty slot. Keep each configured server's `id` stable. The selector checks configured endpoints; servers returning HTTP 404, failing CORS, or otherwise unreachable are marked unavailable and cannot be selected. Auto Server chooses from reachable configured endpoints; manual mode lets the visitor choose an available endpoint. A pairing request goes once to one selected server—there is no cross-server retry, to avoid duplicate pairing attempts.
+Keep each configured server's `id` stable. The selector checks configured endpoints; servers returning HTTP 404, failing CORS, or otherwise unreachable are marked unavailable and cannot be selected. Auto Server chooses from reachable configured endpoints; manual mode lets the visitor choose an available endpoint. A pairing request goes once to one selected server—there is no cross-server retry, to avoid duplicate pairing attempts.
 
 Each usable backend must support `GET /code?number=<digits>` and return JSON containing a non-empty `code` field on success. It must permit browser CORS from the panel origin. The availability check uses `GET /code` without a number; it must not create a pairing session or send a code. Do not test pairing endpoints with a real phone number during deployment checks.
 
-During the latest safe no-number check, the existing Railway URL returned HTTP 404 without a CORS header, so slot 2 will show as unavailable and cannot be selected until that backend is corrected. The four Heroku endpoints passed the no-number `/code` and CORS check.
+The approved Heroku endpoint is used for every visible slot and should pass the no-number `/code` and CORS check before production use.
 
 ## Bot release update
 
