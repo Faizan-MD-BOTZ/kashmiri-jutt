@@ -229,6 +229,7 @@ function collectSettings() {
   if (value('#setBotName')) settings.botName = value('#setBotName');
   if (value('#setPrefix')) settings.prefix = value('#setPrefix');
   if (value('#setStatusEmoji')) settings.statusEmoji = value('#setStatusEmoji');
+  if (value('#setReactEmoji')) settings.reactEmoji = value('#setReactEmoji');
   if (value('#setImageUrl')) settings.imageUrl = value('#setImageUrl');
   if (value('#setStatusMsg')) settings.statusMsg = value('#setStatusMsg');
   return settings;
