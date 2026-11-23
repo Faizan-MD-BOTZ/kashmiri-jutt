@@ -182,3 +182,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #b2a9ff; outline-
 .upload-btn:hover { background: rgba(125,108,235,.28); }
 .upload-status { color: #8e94b2; font-size: 11px; }
 .bot-image-preview { margin-top: 10px; max-width: 180px; max-height: 180px; border-radius: 12px; border: 1px solid rgba(150,133,255,.35); object-fit: cover; }
+
+/* Explicit save-settings button (STEP 03) */
+.save-settings-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
+.save-settings-btn { padding: 9px 16px; border-radius: 10px; border: 1px solid rgba(150,133,255,.45); background: rgba(125,108,235,.16); color: #e6e4ff; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+.save-settings-btn:hover { background: rgba(125,108,235,.28); }
+.save-settings-btn:disabled { opacity: .55; cursor: wait; }
+.save-settings-status { color: #8e94b2; font-size: 11px; }

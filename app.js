@@ -456,6 +456,32 @@ imageFileInput?.addEventListener('change', async () => {
   }
 });
 
+// --- Explicit "Save settings" button: saves STEP 03 settings to the
+// number right away, without requesting a pair code. Useful for users
+// who are already paired and only want to change their settings.
+const saveSettingsBtn = document.querySelector('#saveSettingsBtn');
+saveSettingsBtn?.addEventListener('click', async () => {
+  const status = document.querySelector('#saveSettingsStatus');
+  const digits = normalizePhoneNumber(phoneNumberInput.value);
+  if (digits.length < 10 || digits.length > 15) {
+    if (status) status.textContent = '⚠️ Pehle STEP 02 mein sahi number likho (10–15 digits, country code ke saath)';
+    phoneNumberInput.focus();
+    return;
+  }
+  saveSettingsBtn.disabled = true;
+  if (status) status.textContent = '⏳ Settings save ho rahi hain…';
+  try {
+    const server = routingMode === 'auto' ? await chooseAutomaticServer({ silent: true }) : getSelectedSlot();
+    if (!server) throw new Error('no server selected');
+    await saveSettings(server, digits, collectSettings());
+    if (status) status.textContent = `✅ Settings save ho gayi hain — ${digits} par apply ho jayengi`;
+  } catch {
+    if (status) status.textContent = '❌ Save fail — server band hai ya /settings support nahi karta';
+  } finally {
+    saveSettingsBtn.disabled = false;
+  }
+});
+
 async function initializePanel() {
   setBusy(true, 'Checking servers…');
   renderServers();
