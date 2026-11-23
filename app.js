@@ -207,6 +207,53 @@ async function chooseAutomaticServer({ silent = false } = {}) {
   return choice;
 }
 
+const SETTINGS_TIMEOUT_MS = 15000;
+
+function collectSettings() {
+  const value = id => document.querySelector(id)?.value.trim() || '';
+  const checked = id => Boolean(document.querySelector(id)?.checked);
+  const settings = {
+    mode: value('#setMode') || 'public',
+    antiDelete: checked('#setAntiDelete'),
+    welcome: checked('#setWelcome'),
+    goodbye: checked('#setGoodbye'),
+    autoTyping: checked('#setAutoTyping'),
+    autoRecording: checked('#setAutoRecording'),
+    alwaysOnline: checked('#setAlwaysOnline'),
+    autoRead: checked('#setAutoRead'),
+    antiCall: checked('#setAntiCall'),
+    autoReact: checked('#setAutoReact'),
+    statusReply: checked('#setStatusReply')
+  };
+  // Text fields are only sent when filled, so bot defaults stay untouched.
+  if (value('#setBotName')) settings.botName = value('#setBotName');
+  if (value('#setPrefix')) settings.prefix = value('#setPrefix');
+  if (value('#setStatusEmoji')) settings.statusEmoji = value('#setStatusEmoji');
+  if (value('#setImageUrl')) settings.imageUrl = value('#setImageUrl');
+  if (value('#setStatusMsg')) settings.statusMsg = value('#setStatusMsg');
+  return settings;
+}
+
+async function saveSettings(server, phoneNumber, settings) {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), SETTINGS_TIMEOUT_MS);
+  try {
+    const response = await fetch(new URL('/settings', server.baseUrl), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number: phoneNumber, settings }),
+      cache: 'no-store',
+      signal: controller.signal
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json().catch(() => null);
+    if (!payload?.success) throw new Error('Settings were not saved.');
+    return true;
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
 function setBusy(isBusy, busyLabel = 'Requesting code…') {
   generateButton.disabled = isBusy;
   generateButtonLabel.textContent = isBusy ? busyLabel : 'Generate Pair Code';
@@ -264,12 +311,27 @@ pairForm.addEventListener('submit', async event => {
     let server = routingMode === 'auto' ? await chooseAutomaticServer({ silent: true }) : getSelectedSlot();
     if (!server) throw new Error('No available server is selected. Add a server URL or choose another server.');
 
+    // Arslan-style flow: save the visitor's bot settings to their number
+    // first, then pair — the bot applies them the moment it connects.
+    // If saving fails (e.g. an older server without /settings), still pair
+    // and warn clearly instead of blocking the code.
+    let settingsSaved = true;
+    try {
+      generateButtonLabel.textContent = 'Saving settings…';
+      await saveSettings(server, digits, collectSettings());
+    } catch {
+      settingsSaved = false;
+    }
+    generateButtonLabel.textContent = 'Requesting code…';
+
     // Deliberately make one pairing request to one chosen server; no cross-server retry.
     const code = await requestPairCode(server, digits);
     pairCode.textContent = code;
     codeResult.hidden = false;
     copyButton.disabled = false;
-    showNotice(`Pairing code received from ${server.name}.`, false);
+    showNotice(settingsSaved
+      ? `Settings saved ✓ Pairing code received from ${server.name}.`
+      : `Pairing code received from ${server.name}. ⚠️ Your settings could not be saved — the server may need an update; the code still works.`, !settingsSaved);
   } catch (error) {
     if (error?.name === 'AbortError') {
       showNotice('The server took too long to respond. Check its status and try again.', true);

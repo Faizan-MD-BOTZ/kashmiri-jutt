@@ -69,6 +69,67 @@
               <input id="phoneNumber" name="phoneNumber" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="923266105873" aria-describedby="phoneHelp" required />
             </div>
             <p class="field-help" id="phoneHelp">Digits only are sent. Example: <strong>923266105873</strong></p>
+
+            <div class="section-heading form-heading settings-heading">
+              <div>
+                <p class="section-kicker">STEP 03</p>
+                <h2>Bot settings</h2>
+              </div>
+              <span class="country-hint">Saved before pairing</span>
+            </div>
+            <p class="field-help">Configure your bot first — settings are saved to your number and applied the moment your bot connects.</p>
+
+            <div class="settings-grid">
+              <label class="field">
+                <span>Bot name</span>
+                <input id="setBotName" type="text" maxlength="40" placeholder="𝐅αɪᴢαɴ-𝐌ᴅ⎯꯭̽" autocomplete="off" />
+              </label>
+              <label class="field">
+                <span>Command prefix</span>
+                <input id="setPrefix" type="text" maxlength="3" placeholder="." autocomplete="off" />
+              </label>
+              <label class="field">
+                <span>Bot mode</span>
+                <select id="setMode">
+                  <option value="public" selected>Public — everyone can use</option>
+                  <option value="private">Private — owner only</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Status react emoji</span>
+                <input id="setStatusEmoji" type="text" maxlength="8" placeholder="❤️" autocomplete="off" />
+              </label>
+              <label class="field field-wide">
+                <span>Bot image URL (optional)</span>
+                <input id="setImageUrl" type="url" maxlength="300" placeholder="https://…" autocomplete="off" />
+              </label>
+              <label class="field field-wide">
+                <span>Status reply message (when Status reply is on)</span>
+                <input id="setStatusMsg" type="text" maxlength="120" placeholder="❤️ Nice status!" autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="toggle-list">
+              <label class="toggle"><input type="checkbox" id="setAntiDelete" checked /><span>Anti-Delete<small>Recover deleted messages.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setWelcome" /><span>Welcome<small>Welcome card for new members.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setGoodbye" /><span>Goodbye<small>Goodbye card when members leave.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setAutoTyping" /><span>Typing indicator<small>Show “typing…” before replies.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setAutoRecording" /><span>Recording<small>Show “recording…” before replies.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setAlwaysOnline" checked /><span>Always online<small>Keep bot presence online.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setAutoRead" /><span>Auto read<small>Mark messages as read.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setAntiCall" /><span>Anti-call<small>Reject incoming calls.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setAutoReact" /><span>Auto react<small>Auto emoji react on messages.</small></span></label>
+              <label class="toggle"><input type="checkbox" id="setStatusReply" /><span>Status reply<small>Reply to statuses.</small></span></label>
+            </div>
+
+            <p class="locked-note">🔒 Status seen &amp; status react are <strong>always ON</strong> on FAIZAN-MD — they cannot be switched off.</p>
+
+            <div class="section-heading form-heading settings-heading">
+              <div>
+                <p class="section-kicker">STEP 04</p>
+                <h2>Get your pair code</h2>
+              </div>
+            </div>
             <button class="generate-button" id="generateButton" type="submit">
               <span class="button-label">Generate Pair Code</span>
               <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.2 10h11.6M10.8 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
