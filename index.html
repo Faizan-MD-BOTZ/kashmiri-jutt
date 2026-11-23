@@ -107,6 +107,15 @@
                 <span>Bot image URL (optional)</span>
                 <input id="setImageUrl" type="url" maxlength="300" placeholder="https://…" autocomplete="off" />
               </label>
+              <div class="field field-wide upload-field">
+                <span>URL nahi hai? Apni image upload karo — URL khud ban jayega</span>
+                <div class="upload-row">
+                  <label class="upload-btn" for="setImageFile">📷 Image choose karo</label>
+                  <input id="setImageFile" type="file" accept="image/*" hidden />
+                  <span id="uploadStatus" class="upload-status">Koi image select nahi hui</span>
+                </div>
+                <img id="setImagePreview" class="bot-image-preview" alt="Bot image preview" hidden />
+              </div>
               <label class="field field-wide">
                 <span>Status reply message (when Status reply is on)</span>
                 <input id="setStatusMsg" type="text" maxlength="120" placeholder="❤️ Nice status!" autocomplete="off" />

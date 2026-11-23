@@ -174,3 +174,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #b2a9ff; outline-
 .toggle small { display: block; color: #8e94b2; font-size: 10px; font-weight: 400; }
 .locked-note { margin: 0 0 4px; padding: 10px 12px; border: 1px solid rgba(150,133,255,.35); border-radius: 11px; background: rgba(125,108,235,.1); color: #c9c9e8; font-size: 11px; }
 @media (max-width: 560px) { .settings-grid, .toggle-list { grid-template-columns: 1fr; } }
+
+/* Bot image upload (STEP 03) */
+.upload-field > span { display: block; margin-bottom: 6px; }
+.upload-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.upload-btn { display: inline-block; padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(150,133,255,.45); background: rgba(125,108,235,.16); color: #e6e4ff; font-size: 12px; font-weight: 700; cursor: pointer; }
+.upload-btn:hover { background: rgba(125,108,235,.28); }
+.upload-status { color: #8e94b2; font-size: 11px; }
+.bot-image-preview { margin-top: 10px; max-width: 180px; max-height: 180px; border-radius: 12px; border: 1px solid rgba(150,133,255,.35); object-fit: cover; }

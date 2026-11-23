@@ -394,6 +394,68 @@ copyButton.addEventListener('click', async () => {
   }
 });
 
+// --- Bot image upload: same hosts as the bot's own .url command ---
+// Primary: eliteprotech-url.zone.id (returns { public_url });
+// fallback: GiftedTech (returns { result }). The returned link is
+// filled into the Bot image URL field, so it is saved with the settings.
+async function uploadBotImage(file) {
+  const primary = new FormData();
+  primary.append('file', file);
+  const res = await fetch('https://eliteprotech-url.zone.id/api/upload', {
+    method: 'POST',
+    headers: { Accept: 'application/json' },
+    body: primary
+  });
+  const data = await res.json().catch(() => null);
+  if (res.ok && data && data.public_url) return data.public_url;
+  throw new Error('eliteprotech upload failed');
+}
+
+async function uploadBotImageFallback(file) {
+  const form = new FormData();
+  form.append('apikey', 'gifted');
+  form.append('file', file);
+  const res = await fetch('https://api.giftedtech.co.ke/api/tools/upload', {
+    method: 'POST',
+    body: form
+  });
+  const data = await res.json().catch(() => null);
+  if (res.ok && data && data.result) return data.result;
+  throw new Error('GiftedTech upload failed');
+}
+
+const imageFileInput = document.querySelector('#setImageFile');
+imageFileInput?.addEventListener('change', async () => {
+  const status = document.querySelector('#uploadStatus');
+  const urlInput = document.querySelector('#setImageUrl');
+  const preview = document.querySelector('#setImagePreview');
+  const file = imageFileInput.files && imageFileInput.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    if (status) status.textContent = '⚠️ Sirf image file select karo';
+    return;
+  }
+  if (status) status.textContent = '⏳ Upload ho rahi hai…';
+  try {
+    let link;
+    try {
+      link = await uploadBotImage(file);
+    } catch {
+      link = await uploadBotImageFallback(file);
+    }
+    if (urlInput) urlInput.value = link;
+    if (preview) {
+      preview.src = link;
+      preview.hidden = false;
+    }
+    if (status) status.textContent = '✅ URL tayyar hai — settings ke saath save ho jayega';
+  } catch {
+    if (status) status.textContent = '❌ Upload fail ho gayi — URL haath se paste kar dein';
+  } finally {
+    imageFileInput.value = '';
+  }
+});
+
 async function initializePanel() {
   setBusy(true, 'Checking servers…');
   renderServers();
