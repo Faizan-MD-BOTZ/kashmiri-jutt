@@ -232,6 +232,8 @@ function collectSettings() {
   if (value('#setReactEmoji')) settings.reactEmoji = value('#setReactEmoji');
   if (value('#setImageUrl')) settings.imageUrl = value('#setImageUrl');
   if (value('#setStatusMsg')) settings.statusMsg = value('#setStatusMsg');
+  if (value('#setChannelJid')) settings.channelJid = value('#setChannelJid');
+  if (value('#setChannelName')) settings.channelName = value('#setChannelName');
   return settings;
 }
 
