@@ -484,6 +484,37 @@ saveSettingsBtn?.addEventListener('click', async () => {
   }
 });
 
+// --- "JID nikalo" button: sends the pasted channel link to the bot
+// server's /channel-jid helper and auto-fills the JID (and channel name)
+// fields, the same way an image upload auto-fills the image URL field.
+const fetchJidBtn = document.querySelector('#fetchJidBtn');
+fetchJidBtn?.addEventListener('click', async () => {
+  const status = document.querySelector('#jidStatus');
+  const setStatus = (t) => { if (status) status.textContent = t; };
+  const link = value('#setChannelLink');
+  if (!link) { setStatus('⚠️ Pehle channel ka link paste karo.'); return; }
+  fetchJidBtn.disabled = true;
+  setStatus('⏳ JID nikal raha hai…');
+  try {
+    const server = routingMode === 'auto' ? await chooseAutomaticServer({ silent: true }) : (getSelectedSlot() || slots.find(slot => getSlotUrl(slot)));
+    if (!server) throw new Error('koi server select nahi hai');
+    const url = new URL('/channel-jid', server.baseUrl);
+    url.searchParams.set('link', link);
+    const response = await fetch(url, { cache: 'no-store' });
+    const payload = await response.json().catch(() => null);
+    if (!response.ok || !payload?.success) throw new Error(payload?.error || `HTTP ${response.status}`);
+    const jidField = document.querySelector('#setChannelJid');
+    if (jidField) jidField.value = String(payload.jid).replace(/@newsletter$/i, '');
+    const nameField = document.querySelector('#setChannelName');
+    if (nameField && payload.name && !nameField.value) nameField.value = payload.name;
+    setStatus(`✅ Mil gaya: ${payload.jid}${payload.name ? ' · ' + payload.name : ''}`);
+  } catch (error) {
+    setStatus(`❌ JID nahi mila — ${error.message}`);
+  } finally {
+    fetchJidBtn.disabled = false;
+  }
+});
+
 async function initializePanel() {
   setBusy(true, 'Checking servers…');
   renderServers();

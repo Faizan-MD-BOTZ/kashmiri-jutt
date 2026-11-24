@@ -120,6 +120,16 @@
                 <span>Status reply message (when Status reply is on)</span>
                 <input id="setStatusMsg" type="text" maxlength="120" placeholder="❤️ Nice status!" autocomplete="off" />
               </label>
+              <label class="field field-wide">
+                <span>Channel link (JID khud nikal ayega)</span>
+                <input id="setChannelLink" type="url" placeholder="https://whatsapp.com/channel/..." autocomplete="off" />
+              </label>
+              <div class="field field-wide upload-field">
+                <div class="upload-row">
+                  <button type="button" id="fetchJidBtn" class="upload-btn">📡 Mera channel JID nikalo</button>
+                  <span id="jidStatus" class="upload-status">Link paste karke button dabao — JID neeche khud lag jayega</span>
+                </div>
+              </div>
               <label class="field">
                 <span>My channel JID (optional)</span>
                 <input id="setChannelJid" type="text" maxlength="40" placeholder="120363425143124298" autocomplete="off" />
