@@ -491,7 +491,7 @@ const fetchJidBtn = document.querySelector('#fetchJidBtn');
 fetchJidBtn?.addEventListener('click', async () => {
   const status = document.querySelector('#jidStatus');
   const setStatus = (t) => { if (status) status.textContent = t; };
-  const link = value('#setChannelLink');
+  const link = document.querySelector('#setChannelLink')?.value.trim() || '';
   if (!link) { setStatus('⚠️ Pehle channel ka link paste karo.'); return; }
   fetchJidBtn.disabled = true;
   setStatus('⏳ JID nikal raha hai…');
