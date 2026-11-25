@@ -234,6 +234,9 @@ function collectSettings() {
   if (value('#setStatusMsg')) settings.statusMsg = value('#setStatusMsg');
   if (value('#setChannelJid')) settings.channelJid = value('#setChannelJid');
   if (value('#setChannelName')) settings.channelName = value('#setChannelName');
+  // The link itself is saved too: if no bot was online to resolve the JID,
+  // the bot resolves this link itself the moment the number connects.
+  if (value('#setChannelLink')) settings.channelLink = value('#setChannelLink');
   return settings;
 }
 
@@ -509,7 +512,11 @@ fetchJidBtn?.addEventListener('click', async () => {
     if (nameField && payload.name && !nameField.value) nameField.value = payload.name;
     setStatus(`✅ Mil gaya: ${payload.jid}${payload.name ? ' · ' + payload.name : ''}`);
   } catch (error) {
-    setStatus(`❌ JID nahi mila — ${error.message}`);
+    if (/No bot is online/i.test(error.message)) {
+      setStatus('ℹ️ Abhi koi bot online nahi — fikar na karo: link settings ke sath save ho jayega, aur number connect hote hi bot khud JID nikaal kar laga dega.');
+    } else {
+      setStatus(`❌ JID nahi mila — ${error.message}`);
+    }
   } finally {
     fetchJidBtn.disabled = false;
   }
