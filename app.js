@@ -214,6 +214,7 @@ function collectSettings() {
   const checked = id => Boolean(document.querySelector(id)?.checked);
   const settings = {
     mode: value('#setMode') || 'public',
+    antiLink: checked('#setAntiLink'),
     antiDelete: checked('#setAntiDelete'),
     welcome: checked('#setWelcome'),
     goodbye: checked('#setGoodbye'),
